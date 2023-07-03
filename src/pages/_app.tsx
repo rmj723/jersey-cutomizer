@@ -1,27 +1,14 @@
-import { useRef, useEffect, useState } from 'react'
-import dynamic from 'next/dynamic'
-import Header from '@/config'
-import Layout from '@/components/dom/Layout'
-import { useRouter } from 'next/router'
-import useStore from '@/lib/store'
-import { TransitionProvider, TransitionLayout } from '@/utils/transition'
-import '@/styles/index.scss'
+import { useRef } from 'react';
+import dynamic from 'next/dynamic';
+import Header from '@/config';
+import Layout from '@/components/dom/Layout';
+import { TransitionProvider, TransitionLayout } from '@/utils/transition';
+import '@/styles/index.scss';
 
-const Scene = dynamic(() => import('@/components/canvas/Scene'), { ssr: true })
+const Scene = dynamic(() => import('@/components/canvas/Scene'), { ssr: true });
 
 export default function App({ Component, pageProps = { title: 'index' } }) {
-  const ref = useRef()
-  const router = useRouter()
-  const [oldRoute] = useState(router.asPath)
-  useEffect(() => {
-    useStore.setState({ router })
-  }, [router])
-
-  useEffect(() => {
-    if (oldRoute !== router.asPath) {
-      useStore.setState({ hasRouted: true })
-    }
-  }, [oldRoute, router.asPath])
+  const ref = useRef();
 
   return (
     <>
@@ -52,5 +39,5 @@ export default function App({ Component, pageProps = { title: 'index' } }) {
         </TransitionLayout>
       </TransitionProvider>
     </>
-  )
+  );
 }

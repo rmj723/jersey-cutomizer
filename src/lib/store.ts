@@ -26,9 +26,9 @@ export default create<Store>((set) => ({
     'Patch_Chest_LF',
     'Patch_Sleeve_RT',
     'Patch_Sleeve_LF',
-    'Patch_Chest1',
-    'Patch_Back1',
-    'Patch_Back2',
+    // 'Patch_Chest1',
+    // 'Patch_Back1',
+    // 'Patch_Back2',
   ],
   textures: [],
   addPatch: (patch: string) => {
