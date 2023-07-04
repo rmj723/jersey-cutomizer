@@ -25,8 +25,7 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
   }, [nodes, patches, textures]);
 
   useEffect(() => {
-    // const p = filledPatches.length > patches.length ? filledPatches.slice(-patches.length) : filledPatches
-    if (filledPatches.length > 9) return;
+    if (filledPatches.length > 6) return;
 
     let fixedCount = 0;
     for (let i = 0; i < filledPatches.length; ++i) {
