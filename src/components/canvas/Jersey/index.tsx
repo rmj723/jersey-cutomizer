@@ -28,13 +28,20 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
 
   // Initialization
   useEffect(() => {
-    if (filledPatches.length === 0)
-      for (let key in nodes) {
-        if (patches.includes(key)) {
-          nodes[key].material.visible = false;
-        }
+    if (filledPatches.length !== 0) return;
+    for (let key in nodes) {
+      if (patches.includes(key)) {
+        nodes[key].material.visible = false;
       }
-  }, [filledPatches, nodes, patches]);
+    }
+
+    gsap.to(camera.position, {
+      x: cameraPos.Patch_Chest2[0],
+      y: cameraPos.Patch_Chest2[1],
+      z: cameraPos.Patch_Chest2[2],
+      duration: 0.5,
+    });
+  }, [camera, filledPatches, nodes, patches]);
 
   // Update patch textures
   useEffect(() => {
@@ -64,7 +71,7 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
         x: targetPos[0],
         y: targetPos[1],
         z: targetPos[2],
-        duration: 1,
+        duration: 0.5,
       });
     }
   }, [nodes, patches, textures, filledPatches, camera.position]);
