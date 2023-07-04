@@ -1,20 +1,21 @@
-import { SaveButton } from '@/components/icons/Buttons/SaveButton'
-import s from './InteractionLayer.module.scss'
-import { CancelButton } from '@/components/icons/Buttons/CancelButton'
-import useStore from '@/lib/store'
-import { EditButton } from '@/components/icons/Buttons/EditButton'
-import CardCarousel from '../CardCarousel'
+import { FormGroup, FormControlLabel, Switch, FormControl, FormLabel, Button } from '@mui/material';
+import { SaveButton } from '@/components/icons/Buttons/SaveButton';
+import s from './InteractionLayer.module.scss';
+import { CancelButton } from '@/components/icons/Buttons/CancelButton';
+import useStore from '@/lib/store';
+import { EditButton } from '@/components/icons/Buttons/EditButton';
+import CardCarousel from '../CardCarousel';
 
 const InteractionLayer = () => {
-  const { isEditing } = useStore()
+  const { isEditing, jerseyColor } = useStore();
 
   const editBtnHandler = () => {
-    useStore.setState({ isEditing: true })
-  }
+    useStore.setState({ isEditing: true });
+  };
 
   const cancelBtnHandler = () => {
-    useStore.setState({ isEditing: false })
-  }
+    useStore.setState({ isEditing: false });
+  };
 
   return (
     <div className={s.container}>
@@ -40,6 +41,35 @@ const InteractionLayer = () => {
             </div>
           )}
         </div>
+
+        <FormControl component='fieldset' variant='standard' sx={{ marginTop: '50px' }}>
+          <FormLabel component='legend' sx={{ color: '#1976d2' }}>
+            JERSEY COLOR
+          </FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={jerseyColor === 'Black'}
+                  onChange={() => {
+                    useStore.setState({ jerseyColor: jerseyColor === 'Black' ? 'White' : 'Black' });
+                  }}
+                />
+              }
+              label={jerseyColor}
+            />
+          </FormGroup>
+        </FormControl>
+
+        <Button
+          variant='outlined'
+          color='secondary'
+          onClick={() => {
+            useStore.setState({ filledPatches: [], jerseyColor: 'Black' });
+            // gsap
+          }}>
+          Reset
+        </Button>
       </div>
 
       <div className={s.patch_status}>
@@ -54,7 +84,7 @@ const InteractionLayer = () => {
         <CardCarousel />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InteractionLayer
+export default InteractionLayer;

@@ -6,9 +6,11 @@ import useStore, { cameraPos } from '@/lib/store';
 
 const Jersey: React.FC<GroupProps> = ({ ...props }) => {
   const { nodes, materials } = useGLTF('./models/jersey/jersey-transformed.glb') as any;
-  const { patches, textures, filledPatches } = useStore();
+
+  const { patches, textures, jerseyColor, filledPatches } = useStore();
   const { camera } = useThree();
 
+  // Get all textures
   useEffect(() => {
     for (let key in nodes) {
       if (patches.includes(key)) {
@@ -24,6 +26,17 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
     }
   }, [nodes, patches, textures]);
 
+  // Initialization
+  useEffect(() => {
+    if (filledPatches.length === 0)
+      for (let key in nodes) {
+        if (patches.includes(key)) {
+          nodes[key].material.visible = false;
+        }
+      }
+  }, [filledPatches, nodes, patches]);
+
+  // Update patch textures
   useEffect(() => {
     if (filledPatches.length > 6) return;
 
@@ -55,8 +68,16 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
       });
     }
   }, [nodes, patches, textures, filledPatches, camera.position]);
+
   return (
     <group {...props} dispose={null}>
+      <mesh
+        geometry={nodes.Cube.geometry}
+        material={materials.M_JerseyMLS_White}
+        position={[-1.04, 1.37, -0.41]}
+        scale={0.07}
+        visible={false}
+      />
       <primitive object={nodes.Hips} />
       <skinnedMesh
         geometry={nodes.Patch_Back1.geometry}
@@ -110,7 +131,7 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
       /> */}
       <skinnedMesh
         geometry={nodes.Wolf3D_Outfit_Top.geometry}
-        material={materials.M_JerseyMLS}
+        material={jerseyColor === 'Black' ? materials.M_JerseyMLS_Black : materials.M_JerseyMLS_White}
         skeleton={nodes.Wolf3D_Outfit_Top.skeleton}
       />
       {/* <skinnedMesh

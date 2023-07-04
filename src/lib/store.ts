@@ -10,6 +10,7 @@ interface TextureSetType {
 
 interface Store {
   isEditing: boolean;
+  jerseyColor: string;
   filledPatches: string[];
   patches: string[];
   textures: TextureSetType[];
@@ -18,6 +19,7 @@ interface Store {
 
 export default create<Store>((set) => ({
   isEditing: false,
+  jerseyColor: 'Black',
   filledPatches: [],
   patches: ['Patch_Chest2', 'Patch_Chest3', 'Patch_Chest_RT', 'Patch_Chest_LF', 'Patch_Sleeve_RT', 'Patch_Sleeve_LF'],
   textures: [],

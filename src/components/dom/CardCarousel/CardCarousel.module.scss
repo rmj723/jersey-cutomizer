@@ -1,14 +1,18 @@
 .container {
   width: 100%;
-  padding: 0 100px;
+  padding: 0 200px;
   display: flex;
-
-  justify-content: space-between;
+  justify-content: center;
+  .card_group {
+    width: 1020px;
+    display: flex;
+  }
 }
 
 .card {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
+  margin: 0 10px;
   background-image: url('/img/cardBG.png');
   background-size: cover;
   background-repeat: no-repeat;

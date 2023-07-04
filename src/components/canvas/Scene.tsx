@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { Canvas, CanvasTextureProps } from '@react-three/fiber'
-import { Preload, Environment, Image, OrbitControls, SpotLight } from '@react-three/drei'
-import PostProcessing from './PostProcessing'
-import { Bloom } from '@react-three/postprocessing'
-import { useWindowSize } from 'react-use'
+import { Canvas, CanvasTextureProps } from '@react-three/fiber';
+import { Preload, Environment, Image, OrbitControls, SpotLight } from '@react-three/drei';
+import PostProcessing from './PostProcessing';
+import { Bloom } from '@react-three/postprocessing';
+import { useWindowSize } from 'react-use';
 
 // @ts-ignore
 export default function Scene({ children, className, ...props }: { children: JSX.Element[] } & CanvasTextureProps) {
@@ -15,13 +15,13 @@ export default function Scene({ children, className, ...props }: { children: JSX
       camera={{ position: [0, 0, 2] }}
       gl={{ alpha: true }}
       onCreated={({ camera }) => {
-        window['camera'] = camera
+        window['camera'] = camera;
       }}>
       <Environment files={'./studio_small_03_1k.hdr'} />
-      <spotLight position={[0, 50, 100]} angle={1} penumbra={1} intensity={1} />
+      {/* <spotLight position={[0, 50, 100]} angle={1} penumbra={1} intensity={0.5} /> */}
       {children}
       <Preload all />
-      <OrbitControls enablePan={false} enableZoom={false} />
+      <OrbitControls enablePan={false} />
     </Canvas>
-  )
+  );
 }

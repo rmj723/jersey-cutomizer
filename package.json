@@ -11,7 +11,7 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules .next",
-     "init-dev": "yarn clean && yarn",
+    "init-dev": "yarn clean && yarn",
     "lint": "yarn prettier && yarn eslint",
     "eslint": "next lint --fix --dir src",
     "prettier": "prettier -l \"./src/**/*.{js,jsx,md}\"",
@@ -22,6 +22,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.6",
+    "@mui/styled-engine-sc": "^5.12.0",
     "@oieduardorabelo/use-user-agent": "^5.0.1",
     "@react-three/drei": "^9.74.8",
     "@react-three/fiber": "^8.13.1",
@@ -41,6 +45,7 @@
     "react-use": "^17.4.0",
     "sas": "^3.0.4",
     "sass": "^1.57.1",
+    "styled-components": "^6.0.2",
     "three": "0.153.0",
     "three-stdlib": "^2.17.3",
     "virtual-scroll": "^2.2.1",
