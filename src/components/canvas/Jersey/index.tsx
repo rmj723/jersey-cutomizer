@@ -39,7 +39,7 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
       x: cameraPos.Patch_Chest2[0],
       y: cameraPos.Patch_Chest2[1],
       z: cameraPos.Patch_Chest2[2],
-      duration: 0.5,
+      duration: 0.8,
     });
   }, [camera, filledPatches, nodes, patches]);
 
@@ -71,7 +71,7 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
         x: targetPos[0],
         y: targetPos[1],
         z: targetPos[2],
-        duration: 0.5,
+        duration: 0.8,
       });
     }
   }, [nodes, patches, textures, filledPatches, camera.position]);
