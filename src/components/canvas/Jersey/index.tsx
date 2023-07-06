@@ -3,11 +3,12 @@ import { useGLTF } from '@react-three/drei';
 import { GroupProps, useThree } from '@react-three/fiber';
 import React, { useEffect } from 'react';
 import useStore, { cameraPos } from '@/lib/store';
+import { getKeyByValue } from '@/lib/utils';
 
 const Jersey: React.FC<GroupProps> = ({ ...props }) => {
   const { nodes, materials } = useGLTF('./models/jersey/jersey-transformed.glb') as any;
 
-  const { patches, textures, jerseyColor, filledPatches } = useStore();
+  const { patches, textures, jerseyColor, patchData, lastPosition } = useStore();
   const { camera } = useThree();
 
   // Get all textures
@@ -28,53 +29,45 @@ const Jersey: React.FC<GroupProps> = ({ ...props }) => {
 
   // Initialization
   useEffect(() => {
-    if (filledPatches.length !== 0) return;
     for (let key in nodes) {
       if (patches.includes(key)) {
         nodes[key].material.visible = false;
       }
     }
+  }, [camera, nodes, patches]);
 
+  // update camera
+  useEffect(() => {
+    if (lastPosition === 0) return;
+    const targetPos = lastPosition === -1 ? cameraPos.Patch_Chest2 : cameraPos[patches[lastPosition - 1]];
     gsap.to(camera.position, {
-      x: cameraPos.Patch_Chest2[0],
-      y: cameraPos.Patch_Chest2[1],
-      z: cameraPos.Patch_Chest2[2],
+      x: targetPos[0],
+      y: targetPos[1],
+      z: targetPos[2],
       duration: 0.8,
     });
-  }, [camera, filledPatches, nodes, patches]);
+  }, [lastPosition, camera, patches]);
 
   // Update patch textures
   useEffect(() => {
-    if (filledPatches.length > 6) return;
+    const patchLocations = Object.values(patchData);
 
-    let fixedCount = 0;
-    for (let i = 0; i < filledPatches.length; ++i) {
-      let mat = nodes[patches[i - fixedCount]].material;
-      let targetPos = cameraPos[patches[i - fixedCount]];
+    patches.forEach((patch, idx) => {
+      const patchMesh = nodes[patch];
 
-      const isFixed = ['Patch_Chest1', 'Patch_Back1', 'Patch_Back2'].includes(filledPatches[i]);
-
-      if (isFixed) {
-        ++fixedCount;
-        mat = nodes[filledPatches[i]].material;
-        targetPos = cameraPos[filledPatches[i]];
+      if (patchLocations.includes(idx + 1)) {
+        patchMesh.material.visible = true;
+        const { map, normalMap, metalnessMap, roughnessMap } = textures[getKeyByValue(patchData, idx + 1)];
+        patchMesh.material.map = map;
+        patchMesh.material.normalMap = normalMap;
+        patchMesh.material.metalnessMap = metalnessMap;
+        patchMesh.material.roughnessMap = roughnessMap;
+        patchMesh.material.visible = true;
+      } else {
+        patchMesh.material.visible = false;
       }
-
-      const { map, normalMap, metalnessMap, roughnessMap } = textures[filledPatches[i]];
-      mat.map = map;
-      mat.normalMap = normalMap;
-      mat.visible = true;
-      mat.metalnessMap = metalnessMap;
-      mat.roughnessMap = roughnessMap;
-
-      gsap.to(camera.position, {
-        x: targetPos[0],
-        y: targetPos[1],
-        z: targetPos[2],
-        duration: 0.8,
-      });
-    }
-  }, [nodes, patches, textures, filledPatches, camera.position]);
+    });
+  }, [nodes, patches, textures, patchData]);
 
   return (
     <group {...props} dispose={null}>

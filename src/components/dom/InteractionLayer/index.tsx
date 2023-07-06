@@ -1,13 +1,14 @@
 import { FormGroup, FormControlLabel, Switch, FormControl, FormLabel, Button } from '@mui/material';
-import { SaveButton } from '@/components/icons/Buttons/SaveButton';
 import s from './InteractionLayer.module.scss';
-import { CancelButton } from '@/components/icons/Buttons/CancelButton';
 import useStore from '@/lib/store';
-import { EditButton } from '@/components/icons/Buttons/EditButton';
 import CardCarousel from '../CardCarousel';
+import { useEffect, useMemo, useState } from 'react';
+// import { SaveButton } from '@/components/icons/Buttons/SaveButton';
+// import { CancelButton } from '@/components/icons/Buttons/CancelButton';
+// import { EditButton } from '@/components/icons/Buttons/EditButton';
 
 const InteractionLayer = () => {
-  const { isEditing, jerseyColor } = useStore();
+  const { isEditing, jerseyColor, patchData } = useStore();
 
   const editBtnHandler = () => {
     useStore.setState({ isEditing: true });
@@ -17,6 +18,13 @@ const InteractionLayer = () => {
     useStore.setState({ isEditing: false });
   };
 
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const positions = Object.values(patchData).filter((_) => _ !== 0);
+    setCount(positions.length);
+  }, [patchData]);
+
   return (
     <div className={s.container}>
       <div className={s.description}>
@@ -24,7 +32,7 @@ const InteractionLayer = () => {
 
         <div>Choose an open patch spot and add patches from your collection to customize your jersey.</div>
 
-        <div className={s.buttonGroup}>
+        {/* <div className={s.buttonGroup}>
           {isEditing ? (
             <>
               <div>
@@ -34,13 +42,13 @@ const InteractionLayer = () => {
               <div onClick={cancelBtnHandler}>
                 <CancelButton />
               </div>
-            </>
+            </> 
           ) : (
             <div onClick={editBtnHandler}>
               <EditButton />
             </div>
           )}
-        </div>
+        </div> */}
 
         <FormControl component='fieldset' variant='standard' sx={{ marginTop: '50px' }}>
           <FormLabel component='legend' sx={{ color: '#1976d2' }}>
@@ -65,8 +73,18 @@ const InteractionLayer = () => {
           variant='outlined'
           color='secondary'
           onClick={() => {
-            useStore.setState({ filledPatches: [], jerseyColor: 'Black' });
-            // gsap
+            useStore.setState({
+              jerseyColor: 'Black',
+              lastPosition: -1,
+              patchData: {
+                Patch_Sleeve_RT: 0,
+                Patch_Chest_RT: 0,
+                Patch_Chest3: 0,
+                Patch_Chest2: 0,
+                Patch_Chest_LF: 0,
+                Patch_Sleeve_LF: 0,
+              },
+            });
           }}>
           Reset
         </Button>
@@ -76,7 +94,7 @@ const InteractionLayer = () => {
         <div>Current Jersey</div>
         <div>LOS ANGELES FOOTBALL CLUB</div>
         <div>
-          <span>0</span> patches
+          <span>{count}</span> patches
         </div>
       </div>
 

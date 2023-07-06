@@ -17,7 +17,7 @@ export default function Scene({ children, className, ...props }: { children: JSX
       <Environment files={'./studio_small_03_1k.hdr'} />
       {children}
       <Preload all />
-      <OrbitControls enablePan={false} />
+      <OrbitControls enablePan={false} enableZoom={true} />
     </Canvas>
   );
 }

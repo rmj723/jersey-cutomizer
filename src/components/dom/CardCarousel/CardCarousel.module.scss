@@ -10,6 +10,7 @@
 }
 
 .card {
+  position: relative;
   width: 150px;
   height: 150px;
   margin: 0 10px;
@@ -25,9 +26,16 @@
   cursor: pointer;
 
   :hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
   }
   :active {
     transform: scale(1);
+  }
+
+  & > svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
   }
 }

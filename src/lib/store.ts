@@ -11,23 +11,26 @@ interface TextureSetType {
 interface Store {
   isEditing: boolean;
   jerseyColor: string;
-  filledPatches: string[];
+  lastPosition: number;
   patches: string[];
+  patchData: Object;
   textures: TextureSetType[];
-  addPatch: (patch: string) => void;
 }
 
 export default create<Store>((set) => ({
   isEditing: false,
   jerseyColor: 'Black',
-  filledPatches: [],
-  patches: ['Patch_Chest2', 'Patch_Chest3', 'Patch_Chest_RT', 'Patch_Chest_LF', 'Patch_Sleeve_RT', 'Patch_Sleeve_LF'],
-  textures: [],
-  addPatch: (patch: string) => {
-    set((state) => ({
-      filledPatches: [...state.filledPatches, patch],
-    }));
+  lastPosition: 0, // 1 ~ 6
+  patches: ['Patch_Sleeve_RT', 'Patch_Chest_RT', 'Patch_Chest3', 'Patch_Chest2', 'Patch_Chest_LF', 'Patch_Sleeve_LF'],
+  patchData: {
+    Patch_Sleeve_RT: 0, // 0: Not placed
+    Patch_Chest_RT: 0, // 1 ~ 6: Positions
+    Patch_Chest3: 0,
+    Patch_Chest2: 0,
+    Patch_Chest_LF: 0,
+    Patch_Sleeve_LF: 0,
   },
+  textures: [],
 }));
 
 export const cameraPos = {
